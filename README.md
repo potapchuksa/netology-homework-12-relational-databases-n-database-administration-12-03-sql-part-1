@@ -25,6 +25,12 @@
 
 ### Решение
 
+```sql
+SELECT DISTINCT district FROM address WHERE district NOT LIKE '% %' AND district LIKE 'K%a';
+```
+
+![](img/img-01-01.png)
+
 ---
 
 ### Задание 2
@@ -33,6 +39,13 @@
 
 ### Решение
 
+```sql
+SELECT rental_id, amount, payment_date FROM payment WHERE payment_date BETWEEN '2005-07-15 00:00:00' AND '2005-07-18 23:59:59' AND amount > 10;
+Empty set (0.02 sec)
+```
+
+![](img/img-02-01.png)
+
 ---
 
 ### Задание 3
@@ -40,6 +53,12 @@
 Получите последние пять аренд фильмов.
 
 ### Решение
+
+```sql
+SELECT rental_id, inventory_id, customer_id, rental_date FROM rental ORDER BY rental_date DESC, rental_id DESC LIMIT 5;
+```
+
+![](img/img-03-01.png)
 
 ---
 
@@ -52,6 +71,12 @@
 - замените буквы 'll' в именах на 'pp'.
 
 ### Решение
+
+```sql
+SELECT REPLACE(LOWER(first_name), 'll', 'pp') fn, LOWER(last_name) ln, email FROM customer WHERE active = 1 AND (first_name = 'KELLY' OR first_name = 'WILLIE');
+```
+
+![](img/img-04-01.png)
 
 ---
 
@@ -66,6 +91,15 @@
 
 ### Решение
 
+```sql
+SELECT 
+  SUBSTRING_INDEX(email, '@', 1),
+  SUBSTRING_INDEX(email, '@', -1)
+FROM customer;
+```
+
+![](img/img-05-01.png)
+
 ---
 
 ### Задание 6*
@@ -73,3 +107,25 @@
 Доработайте запрос из предыдущего задания, скорректируйте значения в новых колонках: первая буква должна быть заглавной, остальные — строчными.
 
 ### Решение
+
+```sql
+SELECT 
+  CONCAT(
+    UPPER(
+      LEFT(
+        SUBSTRING_INDEX(email, '@', 1), 1)),
+    LOWER(
+      SUBSTRING(
+        SUBSTRING_INDEX(email, '@', 1), 2))) local,
+  CONCAT(
+    UPPER(
+      LEFT(
+        SUBSTRING_INDEX(email, '@', -1), 1)),
+    LOWER(
+      SUBSTRING(
+        SUBSTRING_INDEX(email, '@', -1), 2))) domain
+FROM customer
+```
+
+![](img/img-06-01.png)
+
